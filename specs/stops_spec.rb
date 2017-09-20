@@ -1,6 +1,5 @@
 require('spec_helper')
 
-
 RSpec.describe(Stop) do
 
   describe(".all") do
@@ -9,28 +8,17 @@ RSpec.describe(Stop) do
     end
   end
 
-  describe('.save') do
-    it "will save info to database" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 0, :city_id => 0,:id => 0})
-      stop.save
-      expect(Stop.all()).to eq([stop])
-    end
-  end
-
   describe("#==") do
     it "will compare two cities; they will share the same city and id" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 1, :city_id => 1, :id => nil})
-      stop.save
-      stop2 = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 1, :city_id => 1,:id => nil})
-      stop2.save
-      binding.pry
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil :id => nil})
+      stop2 = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil:id => nil})
       expect(stop).to eq(stop2)
     end
   end
 
   describe('.save') do
     it "will save info to database" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil,:id => nil})
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil:id => nil})
       stop.save
       expect(Stop.all()).to eq([stop])
     end
@@ -66,7 +54,7 @@ RSpec.describe(Stop) do
 
   describe("#delete") do
     it("lets you delete a stop from the database") do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil,:id => nil})
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil:id => nil})
       stop.save()
       stop.delete()
       expect(Stop.all()).to(eq([]))
