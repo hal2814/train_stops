@@ -11,7 +11,7 @@ RSpec.describe(Stop) do
 
   describe('.save') do
     it "will save info to database" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 0, :city_id => 0,:id => 0})
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1,:id => nil})
       stop.save
       expect(Stop.all()).to eq([stop])
     end
@@ -19,18 +19,15 @@ RSpec.describe(Stop) do
 
   describe("#==") do
     it "will compare two cities; they will share the same city and id" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 1, :city_id => 1, :id => nil})
-      stop.save
-      stop2 = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00:00", :train_id => 1, :city_id => 1,:id => nil})
-      stop2.save
-      binding.pry
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id => 1})
+      stop2 = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1,:id => 1})
       expect(stop).to eq(stop2)
     end
   end
 
   describe('.save') do
     it "will save info to database" do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil,:id => nil})
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1,:id => nil})
       stop.save
       expect(Stop.all()).to eq([stop])
     end
@@ -38,9 +35,9 @@ RSpec.describe(Stop) do
 
   describe('.find') do
     it "return id from stop" do
-      stop_id1 = Stop.new({:city=> "Seattle", :id=>nil})
+      stop_id1 = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id => 1})
       stop_save = stop_id1.save
-      expect(Stop.find(stop_save)).to(eq(Stop.new({:city=> "Seattle",:id=>stop_save})))
+      expect(Stop.find(stop_save)).to(eq(Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id=>stop_save})))
     end
   end
 
@@ -55,18 +52,36 @@ RSpec.describe(Stop) do
   #   end
   # end
 
-  describe("#update") do
-    it("update cities") do
-      stop1= Stop.new({:city=>"Seattle",:id=> nil})
+  describe("#updateCity") do
+    it("updates city") do
+      stop1= Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id=>nil})
       stop1.save()
-      stop1.update({:city=>"Portland"})
+      stop1.updateCity({:city => "Portland"})
       expect(stop1.city).to(eq("Portland"))
+    end
+  end
+
+  describe("#updateTrain") do
+    it("updates train") do
+      stop1= Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id=>nil})
+      stop1.save()
+      stop1.updateTrain({:train => "BNSF line1"})
+      expect(stop1.train).to(eq("BNSF line1"))
+    end
+  end
+
+  describe("#updateArrival") do
+    it("updates arrival") do
+      stop1= Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1, :id=>nil})
+      stop1.save()
+      stop1.updateArrival({:arrival => "05:30:00"})
+      expect(stop1.arrival).to(eq("05:30:00"))
     end
   end
 
   describe("#delete") do
     it("lets you delete a stop from the database") do
-      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "3:00", :train_id => nil, :city_id => nil,:id => nil})
+      stop = Stop.new({:city => "Seattle",:train => "Amtrak line1",:arrival => "03:00:00", :train_id => 1, :city_id => 1 ,:id => nil})
       stop.save()
       stop.delete()
       expect(Stop.all()).to(eq([]))

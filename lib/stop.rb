@@ -39,15 +39,25 @@ class Stop
   end
 
   def save
-    @id = DB.exec("INSERT INTO stops (city,train,arrival) VALUES ('#{@city}','#{@train}','#{@arrival}') RETURNING id;").first().fetch("id").to_i()
+    @id = DB.exec("INSERT INTO stops (city,train,arrival,city_id, train_id) VALUES ('#{@city}','#{@train}','#{@arrival}', #{@city_id}, #{@train_id}) RETURNING id;").first().fetch("id").to_i()
   end
 
-  def update(attributes)
-    @city= attributes.fetch(:city)
-    @train= attributes.fetch(:train)
-    @arrival= attributes.fetch(:arrival)
+  def updateCity(attributes) #need to update city_id and train_id
     @id= self.id()
-    DB.exec("UPDATE stops SET (city,train,arrival) = ('#{@city}','#{@train}','#{@arrival}') WHERE id = #{@id};")
+    @city= attributes.fetch(:city)
+    DB.exec("UPDATE stops SET (city) = ('#{@city}') WHERE id = #{@id};")
+  end
+
+  def updateTrain(attributes)
+    @id= self.id()
+    @train= attributes.fetch(:train)
+    DB.exec("UPDATE stops SET (train) = ('#{@train}') WHERE id = #{@id};")
+  end
+
+  def updateArrival(attributes)
+    @id= self.id()
+    @arrival= attributes.fetch(:arrival)
+    DB.exec("UPDATE stops SET (arrival) = ('#{@arrival}') WHERE id = #{@id};")
   end
 
   def delete
