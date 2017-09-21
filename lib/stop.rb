@@ -67,12 +67,22 @@ class Stop
     DB.exec("DELETE FROM stops WHERE id = #{self.id()};")
   end
 
+  def self.stopExists?(stop_to_compare)
+    Stop.all().each do |stop|
+      if (stop.city.==(stop_to_compare.city)).&(stop.train.==(stop_to_compare.train)).&(stop.arrival.==(stop_to_compare.arrival))
+        return true
+      end
+    end
+    return false
+  end
 
   def self.populateStop(city_name,train_name,time)
     id_for_city = City.find_id(city_name)
     id_for_train = Train.find_id(train_name)
     stop = Stop.new({:city => city_name,:train => train_name,:arrival => time, :train_id => id_for_train, :city_id => id_for_city, :id=>nil})
-    stop.save
+    if !(Stop.stopExists?(stop))
+      stop.save
+    end
   end
 
   def self.seed()

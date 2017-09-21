@@ -32,17 +32,6 @@ RSpec.describe(Train) do
     end
   end
 
-  # describe('#') do
-  #   it "will pull thbelonging to the train" do
-  #     house = Train.new({:name => "House", :specialty => "M.D.", :id => nil})
-  #     doc_house_id = house.save # Train SAVE
-  #     walter = Patient.new({:name => "Little Walter", :birthday => "2005-08-25", :train_id => doc_house_id})
-  #     walter.save # Patient SAVE
-  #     dr_house = Train.find(doc_house_id.to_i)
-  #     expect(dr_house.patients).to eq([walter])
-  #   end
-  # end
-
   describe("#update") do
     it("update trains") do
       train1= Train.new({:name=>"Amtrak line1",:id=> nil})
