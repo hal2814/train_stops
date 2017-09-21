@@ -1,3 +1,6 @@
+# require('train')
+# require('city')
+
 class Stop
   attr_reader :id,:city,:train,:arrival,:train_id,:city_id
 
@@ -62,5 +65,31 @@ class Stop
 
   def delete
     DB.exec("DELETE FROM stops WHERE id = #{self.id()};")
+  end
+
+
+  def self.populateStop(city_name,train_name,time)
+    id_for_city = City.find_id(city_name)
+    id_for_train = Train.find_id(train_name)
+    stop = Stop.new({:city => city_name,:train => train_name,:arrival => time, :train_id => id_for_train, :city_id => id_for_city, :id=>nil})
+    stop.save
+  end
+
+  def self.seed()
+    City.populateCity("Seattle")
+    City.populateCity("Portland")
+    City.populateCity("Seattle")
+    Train.populateTrain("Amtrak line1")
+    Train.populateTrain("BNSF line1")
+    Train.populateTrain("Amtrak line1")
+    City.populateCity("Phoenix")
+    Train.populateTrain("Amtrak line2")
+    City.populateCity("Los Angeles")
+    Train.populateTrain("BNSF line5")
+    self.populateStop("Seattle","Amtrak line1","12:30:00")
+    self.populateStop("Portland","Amtrak line1","16:45:00")
+    self.populateStop("Phoenix","BNSF line1","08:30:00")
+    self.populateStop("Los Angeles","BNSF line5","13:00:00")
+
   end
 end
