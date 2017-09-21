@@ -1,0 +1,21 @@
+<h4>Operator</h4>
+<h1>Cities</h1>
+
+<% if @cities.any?() %>
+  <ol>
+    <% @cities.each() do |city| %>
+    <li>
+      <ul>
+        <li><a href="/city/<%=city.id%>"><%= city.name %></a></li>
+      </ul>
+    </li>
+    <% end %>
+  </ol>
+
+  <% else %>
+  <p> No cities. Dawg</p>
+  <% end %>
+
+<a href="/train_list"><button type="button" class="btn btn-dark">View all trains</button></a>
+
+<a href="/"><button type="button" class="btn btn-light">Home</button></a>

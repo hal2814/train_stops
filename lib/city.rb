@@ -30,17 +30,6 @@ class City
     return nil
   end
 
-  # def self.find_by_name(name)
-  #   queried_cities = DB.exec("SELECT * FROM cities;")
-  #   queried_cities.each do |city|
-  #     if name == city["name"]
-  #       city_name = city["name"]
-  #       id = city["id"].to_i
-  #       city_obj = City.new({:name => city_name, :id => id})
-  #       return city_obj.id
-  #     end
-  #   end
-  # end
 
   def save
     @id = DB.exec("INSERT INTO cities (name) VALUES ('#{@name}') RETURNING id;").first().fetch("id").to_i()

@@ -41,6 +41,26 @@ class Stop
     return nil
   end
 
+  def self.findAllCities(id)
+    cities = []
+    Stop.all().each do |stop|
+      if stop.city_id().==(id)
+        cities.push(stop)
+      end
+    end
+    return cities
+  end
+
+  def self.findAllTrains(id)
+    trains = []
+    Stop.all().each do |stop|
+      if stop.train_id().==(id)
+        trains.push(stop)
+      end
+    end
+    return trains
+  end
+
   def save
     @id = DB.exec("INSERT INTO stops (city,train,arrival,city_id, train_id) VALUES ('#{@city}','#{@train}','#{@arrival}', #{@city_id}, #{@train_id}) RETURNING id;").first().fetch("id").to_i()
   end
