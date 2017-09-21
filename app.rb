@@ -46,6 +46,7 @@ post('/city/:id')do
   city = @city.name
   Train.populateTrain(train)
   stop = Stop.populateStop(city,train,time)
+  @cities = Stop.findAllCities(params.fetch("id").to_i)
   erb(:city)
 end
 
@@ -63,5 +64,11 @@ post('/train/:id')do
   train = @train.name
   City.populateCity(city)
   stop = Stop.populateStop(city,train,time)
+  @trains = Stop.findAllTrains(params.fetch("id").to_i)
   erb(:train)
+end
+
+get('/stops/:id')do
+  @stop = Stop.find(params.fetch("id").to_i)
+  erb(:stops)
 end
